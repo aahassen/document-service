@@ -1,55 +1,40 @@
 package com.javakia.api.document.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.io.InputStream;
 
-@Entity // This tells Hibernate to make a table out of this class
 public class Document {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+	  private InputStream content;
 
-    private String fileName;
+	  private DocumentMetaData documentMetaData;
 
-    private String author;
-    
-    private String tags;
-    
-
-	public Integer getId() {
-		return id;
+	/**
+	 * @return the content
+	 */
+	public InputStream getContent() {
+		return content;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	/**
+	 * @return the documentMetaData
+	 */
+	public DocumentMetaData getDocumentMetaData() {
+		return documentMetaData;
 	}
 
-	public String getFileName() {
-		return fileName;
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(InputStream content) {
+		this.content = content;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	/**
+	 * @param documentMetaData the documentMetaData to set
+	 */
+	public void setDocumentMetaData(DocumentMetaData documentMetaData) {
+		this.documentMetaData = documentMetaData;
 	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getTags() {
-		return tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-
-	
+	  
+	  
 
 }

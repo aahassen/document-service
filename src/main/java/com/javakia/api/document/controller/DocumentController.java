@@ -1,6 +1,7 @@
 package com.javakia.api.document.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,35 +12,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.javakia.api.document.dao.DocumentDao;
 import com.javakia.api.document.model.Document;
+import com.javakia.api.document.model.DocumentMetaData;
+import com.javakia.api.document.service.DocumentService;
 
 
 @RestController
 @CrossOrigin()
 public class DocumentController {
 	@Autowired
-    DocumentDao docDao;
+    DocumentService docService;
 	//@Autowired
 	//S3Service s3Service;
 	@RequestMapping(value = "/uploadDoc", method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("author") String author, @RequestParam("tags") String tags) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("author") String author, @RequestParam("tags") String tags) throws IOException {
+		DocumentMetaData metaData = new DocumentMetaData();
+		metaData.setFileName(file.getOriginalFilename());
+		metaData.setAuthor(author);
+		metaData.setTags(tags);
+		
 		Document doc = new Document();
-		doc.setFileName(file.getOriginalFilename());
-		doc.setAuthor(author);
-		doc.setTags(tags);
+		doc.setDocumentMetaData(metaData);
+		doc.setContent(file.getInputStream());
 		
-		//s3Service.uploadFile(file);
+		docService.save(doc);
 		
-		docDao.save(doc);
 		
         return "Succesfully uploaded: " + file.getOriginalFilename();
     }
 	
 	@RequestMapping(value = "/getDocs", method = RequestMethod.GET)
-    public List<Document> download() {
-		List<Document> allDocs = (List<Document>) docDao.findAll();
-        return allDocs;
+    public List<DocumentMetaData> download() {
+        return docService.getDocs();
     }
 
 }
