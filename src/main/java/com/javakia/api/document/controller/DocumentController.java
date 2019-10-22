@@ -18,16 +18,16 @@ import com.javakia.api.document.service.DocumentService;
 
 
 @RestController
-@CrossOrigin()
 public class DocumentController {
 	@Autowired
     DocumentService docService;
 	//@Autowired
 	//S3Service s3Service;
+	@CrossOrigin("*")
 	@RequestMapping(value = "/uploadDoc", method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("author") String author, @RequestParam("tags") String tags) throws IOException {
+    public void uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("author") String author, @RequestParam("tags") String tags) throws IOException {
 		DocumentMetaData metaData = new DocumentMetaData();
-		metaData.setFileName(file.getOriginalFilename());
+		metaData.setFilename(file.getOriginalFilename());
 		metaData.setAuthor(author);
 		metaData.setTags(tags);
 		
@@ -36,12 +36,11 @@ public class DocumentController {
 		doc.setContent(file.getInputStream());
 		
 		docService.save(doc);
-		
-		
-        return "Succesfully uploaded: " + file.getOriginalFilename();
+	
     }
 	
-	@RequestMapping(value = "/getDocs", method = RequestMethod.GET)
+	@CrossOrigin("*")
+	@RequestMapping(value = "/uploadDoc", method = RequestMethod.GET)
     public List<DocumentMetaData> download() {
         return docService.getDocs();
     }

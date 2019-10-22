@@ -11,7 +11,7 @@ public class DocumentMetaData {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    private String fileName;
+    private String filename;
 
     private String author;
     
@@ -26,12 +26,19 @@ public class DocumentMetaData {
 		this.id = id;
 	}
 
-	public String getFileName() {
-		return fileName;
+
+	/**
+	 * @return the filename
+	 */
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	/**
+	 * @param filename the filename to set
+	 */
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 	public String getAuthor() {

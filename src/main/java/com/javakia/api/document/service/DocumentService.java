@@ -3,6 +3,7 @@ package com.javakia.api.document.service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class DocumentService {
 
 	public void save(Document doc) throws IOException {
 	
-	Files.copy(doc.getContent(), Paths.get(uploadDir, doc.getDocumentMetaData().getFileName()));
 	
+	Files.copy(doc.getContent(), Paths.get(uploadDir, doc.getDocumentMetaData().getFilename()), StandardCopyOption.REPLACE_EXISTING);
+	//TODO: Avoid dup entry
 	docDao.save(doc.getDocumentMetaData());
 	}
 	
