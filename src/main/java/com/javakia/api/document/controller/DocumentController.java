@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,8 +42,8 @@ public class DocumentController {
 	
 	@CrossOrigin("*")
 	@RequestMapping(value = "/uploadDoc", method = RequestMethod.GET)
-    public List<DocumentMetaData> download() {
-        return docService.getDocs();
+    public List<DocumentMetaData> download(Pageable pagable) {
+        return docService.getDocs(pagable).getContent();
     }
 
 }

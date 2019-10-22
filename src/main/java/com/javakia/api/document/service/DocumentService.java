@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.javakia.api.document.dao.DocumentDao;
@@ -31,9 +33,9 @@ public class DocumentService {
 	docDao.save(doc.getDocumentMetaData());
 	}
 	
-	public List<DocumentMetaData> getDocs()
+	public Page<DocumentMetaData> getDocs(Pageable pagable)
 	{
-		List<DocumentMetaData> allDocs = (List<DocumentMetaData>) docDao.findAll();
+		Page<DocumentMetaData> allDocs = docDao.findAll(pagable);
         return allDocs;
 	}
 
